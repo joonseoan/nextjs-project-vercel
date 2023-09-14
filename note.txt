@@ -1,0 +1,105 @@
+Next.js with type script
+
+- npx create-next-app@latest --ts
+- Keep pressing Enter with the default value. Eslint should be enclosed.
+- setup yarn: https://classic.yarnpkg.com/en/docs/install#debian-stable
+- yarn dev: start ’next dev’
+
+Folder structure
+
+- .next: output folder compiled. It compiles the development files whenever refreshes `yarn start` or `save`
+- node_modules: nothing to say
+- pages: writing our applications
+- _app.tsx:
+
+Server side rendering vs Client side rendering
+- To research, please us the `View Source` with right click on the browser
+
+- Server side rendering: renders from a server.
+  - It display all of contents in the browser upon request.
+  - It enables SEO (search engine optimization) : we can think about how visible is our page on the internet 
+    . More content we have on our page at the time, we are making the request, the better our page can
+      better form. The content is immediately available in the browser as we make request. 
+  - We can still use React.js
+
+- Client side rendering: renders from a browser.
+  - All of HTML contents is not in the browser (in browser, right click and then view page source).
+   . It only has Empty content in <Head></Head> and <div id="root"></div>
+   . So how it is possible that clients say it has its own application displaying all of the content?
+      -> It is because the HTML file has the javascript files. Javascript in `Browser` is responsible for rending
+        all of HTM documents.
+      -> Specifically, in React, as soon as HTML file passed down, and then additional resources (Javascript) are fetched.
+        In other words, tHe main HTML file renders normally with chunk.js and main.js. The javascript
+        files downloaded together with that HTML file and linked to that HTML file executes, and the current
+        HTML contents are displayed on the browser.
+      -> It is very fast to get the initial page loaded because we getting there HTML content is empty
+        and we are getting immediately something on the screen and Javascript is responsible to our rendering.
+
+- Bulma (CSS Framework)
+  - yarn add bulma
+
+
+- Deployment
+  . NodeJS: will go to Heroku (Node.js cannot go to Varicel because it is serverless platform)
+    - Signup Heroku
+      . email: j*o*seo.*n18*@gmail.com
+      . password: sheridan
+    - Get github (already done)
+    - Set Heroku CLI: https://devcenter.heroku.com/articles/heroku-cli for Mac
+      . Need to install homebrew first (done already)
+      . In Mac terminal, 'brew tap heroku/brew && brew install heroku'
+      . In terminal, 'heroku version' --> we can see the heroku version
+      . Download git cli (Done already)
+      . Create a git repo in git hub and git commit and push (Please make sure that git repo must be `master`, not `main`)
+      . In google search 'heroku node js deployment': https://devcenter.heroku.com/articles/deploying-nodejs
+      . In terminal, `node -v` and copy and paste it to package.json file
+
+            `
+            "main": "index.js",
+            "engines": {
+                "node": "18.x"
+            },
+            
+            `
+      . Add start script in package.json.
+            `
+            "scripts": {
+                "test": "echo \"Error: no test specified\" && exit 1",
+                "dev": "nodemon index.js",
+                "start": "node index.js"
+            },
+            `
+
+      . Git commit and git push again.
+      . Visit Heroku website. and at the upper right corner click "new" -> "create new app"
+      . For app name: Content-manager-server
+      . Choose a region: U states
+      . Setup payment method
+      . click create app
+      . click `deploy` tab, refer to this doc to deploy app.
+      . Under the project directory, `heroku login` and in populated browser enter login
+      . In terminal, git status to check everything is updated and committed.
+      . In terminal, 'heroku git:remote -a content-manager-api-server' 
+        The 'content-manager-api-server' is a name that I entered in heroku in creating a new app.
+      . Then double check the git to heroku connection with `git remote -v`
+        We can see...
+        heroku	https://git.heroku.com/content-manager-api-server.git (fetch)
+        heroku	https://git.heroku.com/content-manager-api-server.git (push)
+        origin	https://github.com/joonseoan/nextjs-server-project1.git (fetch)
+        origin	https://github.com/joonseoan/nextjs-server-project1.git (push)
+      . 'git push heroku master' in terminal
+      . Visit Heroku and project in website and click `open app` at the upper right corner.
+      . If we have any trouble need to click "more" button upper right corner and then see view log.
+      . Please make sure that the server port should:
+        const PORT = process.env.PORT || 3001 in index.js
+      . Fix the issue. Git push and `git push heroku master` again.
+      . Got this url: https://content-manager-api-server-0f11aabab673.herokuapp.com/
+
+    . Next.js to Varicel
+      - Commit and Create git hub repo (done)
+      - Create .env.production
+        API_URL=https://content-manager-api-server-0f11aabab673.herokuapp.com/api
+      - "npm run build" and 'npm start' to see everything is ok.
+      - Git commit and push again.  
+
+
